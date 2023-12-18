@@ -5,7 +5,7 @@ Route: /api/users
 const { Router } = require("express");
 const {check} = require('express-validator');
 const {validateFields} = require('../middlewares/validate-fields')
-const { getUsers, createUsers, updateUsers } = require("../controllers/users");
+const { getUsers, createUsers, updateUsers, deleteUser } = require("../controllers/users");
 const router = Router();
 
 router.get('/', getUsers);
@@ -27,5 +27,7 @@ router.put('/:id',[
     validateFields,
 
 ], updateUsers);
+
+router.delete('/:id', deleteUser);
 
 module.exports = router;

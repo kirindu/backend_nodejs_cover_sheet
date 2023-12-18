@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
+const {getJWT} = require('../helpers/jwt');
 
 const getUsers = async (req, res) => {
   const users = await User.find({}, "name rol surname email state google");
@@ -28,11 +29,17 @@ const createUsers = async (req, res) => {
     const salt = bcrypt.genSaltSync();
     user.password = bcrypt.hashSync(password, salt);
 
-    // Sace User
+    // Save User
     await user.save();
+
+    
+    const token = await getJWT(user._id);
+
+
     res.status(200).json({
       ok: true,
       user,
+      token,
     });
   } catch (error) {
     console.log(error);
@@ -70,19 +77,48 @@ const updateUsers = async (req, res) => {
           ok: false,
           msg: "There is already a user with this email",
         });
+      } else {
+        // Si el email no existe entonces procedemos a actualizar, pero antes agregamos el email de nuevo a los campos
+        fields.email = email;
+        const userUpdated = await User.findByIdAndUpdate(uid, fields, {
+          new: true,
+        });
+        res.status(200).json({
+          ok: true,
+          user: userUpdated,
+        });
       }
-     else {
-      // Si el email no existe entonces procedemos a actualizar, pero antes agregamos el email de nuevo a los campos
-      fields.email = email;
-      const userUpdated = await User.findByIdAndUpdate(uid, fields, {
-        new: true,
-      });
-      res.status(200).json({
-        ok: true,
-        user: userUpdated,
-      });
-     }
     }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: "An unexpected error occurred, please check the log",
+    });
+  }
+};
+
+const deleteUser = async (req, res) => {
+  try {
+    const uid = req.params.id;
+
+    const userDB = await User.findById(uid);
+
+    if (!userDB) {
+      return res.status(404).json({
+        ok: false,
+        msg: "User not found",
+      });
+    }
+
+    const userDeleted = await User.findByIdAndDelete(uid, {
+      new: true,
+    });
+
+    res.status(200).json({
+      ok: true,
+      user: userDeleted,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -96,4 +132,5 @@ module.exports = {
   getUsers,
   createUsers,
   updateUsers,
+  deleteUser,
 };
