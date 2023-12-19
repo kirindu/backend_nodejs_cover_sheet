@@ -8,6 +8,7 @@ const getUsers = async (req, res) => {
   res.status(200).json({
     ok: true,
     users,
+    uid: req.uid // Samos el uid del req, que previamente me lo esta dando el middleware de validacion jwt
   });
 };
 
@@ -72,11 +73,15 @@ const updateUsers = async (req, res) => {
     // Si el email es diferente , buscamos si ya existe registrado antes , sino agregamos denuevo el campo y actualizamo.
     if (userDB.email !== req.body.email) {
       const existEmail = await User.findOne({ email: req.body.email });
+
+
       if (existEmail) {
         return res.status(400).json({
           ok: false,
           msg: "There is already a user with this email",
         });
+
+
       } else {
         // Si el email no existe entonces procedemos a actualizar, pero antes agregamos el email de nuevo a los campos
         fields.email = email;
@@ -88,7 +93,19 @@ const updateUsers = async (req, res) => {
           user: userUpdated,
         });
       }
+    } else {
+
+           const userUpdated = await User.findByIdAndUpdate(uid, fields, {
+             new: true,
+           });
+           res.status(200).json({
+             ok: true,
+             user: userUpdated,
+           });
+
     }
+
+
   } catch (error) {
     console.log(error);
     res.status(500).json({
