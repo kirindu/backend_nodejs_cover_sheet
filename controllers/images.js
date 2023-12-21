@@ -1,4 +1,4 @@
-const User = require("../models/image");
+const Image = require("../models/image");
 const bcrypt = require("bcryptjs");
 const { getJWT } = require("../helpers/jwt");
 
@@ -12,11 +12,28 @@ const getImages = async (req, res) => {
   };
   
   const createImage = async (req, res) => {
+    const uid = req.uid; // recuperamos el uid previamente insertado por la validacion del token.
 
-    res.status(200).json({
+    const image = new Image({
+      user: uid, // en este caso user corresponde al nombre a como lo definimios en el modelo
+      ...req.body,
+    });
+  
+    try {
+      const imageDB = await image.save();
+  
+      res.status(200).json({
         ok: true,
-        msg: 'createImage'
+        image: imageDB,
       });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        ok: false,
+        msg: "An unexpected error occurred, please check the log",
+
+      });
+    }
 
   };
   
