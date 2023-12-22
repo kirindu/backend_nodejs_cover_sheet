@@ -1,7 +1,8 @@
+const fs = require("fs");
 const Posts = require("../models/post");
 const bcrypt = require("bcryptjs");
 const { getJWT } = require("../helpers/jwt");
-const {v4: uuidv4} = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 
 const getPosts = async (req, res) => {
   const posts = await Posts.find({})
@@ -30,7 +31,7 @@ formData.append('role', 'student')
   const uid = req.uid; // recuperamos el uid previamente insertado por la validacion del token.
 
   const post = new Posts({
-    user: uid, // en este caso user corresponde al nombre a como lo definimios en el modelo
+    user: uid, // en este caso user corresponde al id del usuario a como lo definimios en el modelo
     ...req.body,
   });
 
@@ -44,17 +45,15 @@ formData.append('role', 'student')
 
   // Procesamos la imagen
   const file = req.files.image;
-// Podemos delimitar el peso 
 
-if((file.size/1024) > 1024 ) {
-  return res.status(400).json({
-    ok: false,
-    msg: "The image cannot weigh more than 1 M.",
-  });
+  // Podemos delimitar el peso
 
-}
-
-
+  if (file.size / 1024 > 1024) {
+    return res.status(400).json({
+      ok: false,
+      msg: "The image cannot weigh more than 1 M.",
+    });
+  }
 
   //Extraemos la extension
   const nameCuted = file.name.split(".");
@@ -69,10 +68,6 @@ if((file.size/1024) > 1024 ) {
     });
   }
 
-  //Evaluamos el peso
-
-
-
   // Generamos el nombre del archivo de la imagen usando uuid
 
   const nameImage = `${uuidv4()}.${extFile}`;
@@ -83,28 +78,26 @@ if((file.size/1024) > 1024 ) {
 
   //Copiamos la imagen
 
-
-  file.mv(path, (err)=> {
-    if(err){
+  file.mv(path, (err) => {
+    if (err) {
       console.log(err);
       return res.status(500).json({
         ok: false,
-        msg:'Error to copy the image'
+        msg: "Error to copy the image",
       });
     }
-
-
   });
 
   try {
-    post.image = path;
+    // Salvamos a la BD
+
+    post.image = path; // Guardamos el path de la imagen
     const postDB = await post.save();
 
     res.status(400).json({
       ok: true,
       postDB,
     });
-
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -115,10 +108,108 @@ if((file.size/1024) > 1024 ) {
 };
 
 const updatePost = async (req, res) => {
-  res.status(200).json({
-    ok: true,
-    msg: "updatePost",
-  });
+  const uid = req.params.id; //recibimos el id del post
+  const userId = req.uid; // recuperamos el uid del usuario previamente insertado por la validacion del token.
+
+  const post = {
+    user: userId, // en este caso user corresponde al nombre a como lo definimios en el modelo
+    ...req.body,
+  };
+
+  try {
+    const postDB = await Posts.findById(uid);
+
+    if (!postDB) {
+      return res.status(404).json({
+        ok: false,
+        msg: "post not found",
+      });
+    }
+
+    // Updates
+
+    if (!req.files || Object.keys(req.files).length === 0) {
+      //Sino se selecciona ninguna imagen, solo actualizamos lo que haya
+
+      post.image = postDB.image; //Setiemos de nuevo la misma ruta de la imagen original
+
+      const postUpdated = await Posts.findByIdAndUpdate(uid, post, {
+        new: true,
+      });
+      res.status(200).json({
+        ok: true,
+        user: postUpdated,
+      });
+    } else {
+      // Procesamos la imagen
+      const file = req.files.image;
+
+      // Podemos delimitar el peso
+
+      if (file.size / 1024 > 1024) {
+        return res.status(400).json({
+          ok: false,
+          msg: "The image cannot weigh more than 1 M.",
+        });
+      }
+
+      //Extraemos la extension
+      const nameCuted = file.name.split(".");
+      const extFile = nameCuted[nameCuted.length - 1];
+
+      //Validar extension
+      const extValid = ["png", "jpg", "jpeg"];
+      if (!extValid.includes(extFile)) {
+        return res.status(400).json({
+          ok: false,
+          msg: "Extension Invalid.",
+        });
+      }
+
+      //Borramos la imagen vieja :
+
+      const OldPath = postDB.image; // Obtenemos el path de la imagen anterior
+
+      if (fs.existsSync(OldPath)) {
+        fs.unlinkSync(OldPath);
+      }
+
+      // Generamos el nombre del archivo de la imagen usando uuid
+
+      const nameImage = `${uuidv4()}.${extFile}`;
+
+      // Path para guardar la imagen
+
+      const path = `./uploads/posts/${nameImage}`;
+      post.image = path; // Guardamos el path de la imagen
+
+      //Copiamos la imagen
+
+      file.mv(path, (err) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            ok: false,
+            msg: "Error to copy the image",
+          });
+        }
+      });
+
+      const postUpdated = await Posts.findByIdAndUpdate(uid, post, {
+        new: true,
+      });
+      res.status(200).json({
+        ok: true,
+        user: postUpdated,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: "An unexpected error occurred, please check the log",
+    });
+  }
 };
 
 const deletePost = async (req, res) => {

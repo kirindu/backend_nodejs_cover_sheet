@@ -35,6 +35,12 @@ router.post('/',[
 router.put('/:id',[
 
     validateJwt,
+    check('name', 'The name is required').notEmpty(),
+   // check('image', 'The image is required').notEmpty(),
+    check('price', 'The price is required').notEmpty(),
+    check('description', 'The description is required').notEmpty(),
+    check('category', 'The category is not valid').isMongoId(), // Evaluamos quie si el Id de la categoria que le pasamos es valida
+    validateFields
 
 ], updatePost);
 
