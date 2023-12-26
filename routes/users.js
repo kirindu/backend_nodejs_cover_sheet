@@ -16,6 +16,7 @@ router.post('/',[
     check('surname','The surname is required').notEmpty(),
     check('password','The password is required' ).notEmpty(),
     check('email', 'The email is required').isEmail(),
+    check('rol', 'The rol is required').isEmail(),
     validateFields,
 
 ], createUsers);
