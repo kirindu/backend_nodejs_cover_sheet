@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 const Posts = require("../models/post");
 const bcrypt = require("bcryptjs");
 const { getJWT } = require("../helpers/jwt");
@@ -13,6 +14,19 @@ const getPosts = async (req, res) => {
     ok: true,
     posts,
   });
+};
+
+const getImage = async (req, res) => {
+  const image = req.params.image;
+  const pathImg = path.join(__dirname, `../uploads/posts/${image}`);
+
+  if(fs.existsSync(pathImg)) {
+    res.sendFile(pathImg);
+  } else {
+    const pathImg = path.join(__dirname, `../uploads/no_image_available.jpg`);
+    res.sendFile(pathImg);
+  }
+
 };
 
 const createPost = async (req, res) => {
@@ -224,4 +238,5 @@ module.exports = {
   createPost,
   updatePost,
   deletePost,
+  getImage,
 };

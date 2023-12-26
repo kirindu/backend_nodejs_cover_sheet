@@ -8,7 +8,7 @@ const expressfileUpload = require('express-fileupload');
 
 const {check} = require('express-validator');
 const {validateFields} = require('../middlewares/validate-fields')
-const { getPosts, createPost, updatePost, deletePost } = require("../controllers/posts");
+const { getPosts, createPost, updatePost, deletePost, getImage } = require("../controllers/posts");
 const validateJwt = require("../middlewares/validate-jwt");
 const router = Router();
 
@@ -20,6 +20,8 @@ const router = Router();
   router.use(expressfileUpload());
 
 router.get('/', validateJwt, getPosts);
+
+router.get('/:image', [], getImage);
 
 router.post('/',[
 
