@@ -19,7 +19,9 @@ const router = Router();
 
   router.use(expressfileUpload());
 
-router.get('/', validateJwt, getPosts);
+//router.get('/', validateJwt, getPosts);
+router.get('/', [], getPosts); // En este caso no validaremos el jwt
+
 
 router.get('/:image', [], getImage);
 

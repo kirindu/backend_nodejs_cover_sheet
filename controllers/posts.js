@@ -106,6 +106,7 @@ formData.append('role', 'student')
     // Salvamos a la BD
 
     post.image = path; // Guardamos el path de la imagen
+    post.image_url = process.env.PATH_IMAGE_SERVER + nameImage;
     const postDB = await post.save();
 
     res.status(400).json({

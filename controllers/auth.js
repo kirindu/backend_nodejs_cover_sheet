@@ -32,6 +32,12 @@ const login = async (req, res) => {
     res.status(200).json({
       ok: true,
       token,
+      user: {
+        name: userDB.name, 
+        surname: userDB.surname,
+        email: userDB.email,
+        rol: userDB.rol,
+      }
     });
   } catch (error) {
     console.log(error);
