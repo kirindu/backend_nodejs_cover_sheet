@@ -81,11 +81,36 @@ const updateCategories = async (req, res) => {
   }
 };
 
-const deleteCategories = (req, res) => {
-  res.json({
-    ok: true,
-    msg: "deleteCategories",
-  });
+const deleteCategories = async (req, res) => {
+  try {
+    const uid = req.params.id; //recibimos el id de la categoria
+    const userId = req.uid; // recuperamos el uid del usuario previamente insertado por la validacion del token.
+
+    const categoryDB = await Category.findById(uid);
+
+    if (!categoryDB) {
+      return res.status(404).json({
+        ok: false,
+        msg: "Category not found",
+      });
+    }
+
+
+    const categoryDeleted = await Category.findByIdAndDelete(uid, {
+      new: true,
+    });
+
+    res.status(200).json({
+      ok: true,
+      user: categoryDeleted,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: "An unexpected error occurred, please check the log",
+    });
+  }
 };
 
 module.exports = {
