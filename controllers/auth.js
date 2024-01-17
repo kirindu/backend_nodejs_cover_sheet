@@ -54,14 +54,14 @@ const renewToken = async (req, res) => {
   const uid = req.uid;
   const token = await getJWT(uid);
 
-  const user = User.findById(uid);
+  const infoUser = await User.findById(uid);
 
 
 
   res.status(200).json({
     ok: true,
     token,
-    user
+    infoUser
   });
 
 }
