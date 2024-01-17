@@ -37,6 +37,7 @@ const login = async (req, res) => {
         surname: userDB.surname,
         email: userDB.email,
         rol: userDB.rol,
+        uid: userDB.id,
       }
     });
   } catch (error) {
@@ -53,9 +54,14 @@ const renewToken = async (req, res) => {
   const uid = req.uid;
   const token = await getJWT(uid);
 
+  const user = User.findById(uid);
+
+
+
   res.status(200).json({
     ok: true,
     token,
+    user
   });
 
 }
