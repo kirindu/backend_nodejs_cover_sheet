@@ -23,7 +23,7 @@ const router = Router();
 router.get('/', [], getPosts); // En este caso no validaremos el jwt
 
 
-router.get('/:image', [], getImage);
+router.get('/image/:image', [], getImage);
 
 router.post('/',[
 
