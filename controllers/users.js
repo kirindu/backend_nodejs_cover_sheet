@@ -5,6 +5,9 @@ const {getJWT} = require('../helpers/jwt');
 const getUsers = async (req, res) => {
   const users = await User.find({}, "name rol surname email state google");
 
+
+
+
   res.status(200).json({
     ok: true,
     users,
@@ -83,6 +86,14 @@ const updateUsers = async (req, res) => {
 
 
       } else {
+
+        //Si se sta reciviendo un passsword es que se desea cambiar, por lo que procedemos a generarlo y agregarlo
+        if(req.body.password) {
+        //Encrypt password
+        const salt = bcrypt.genSaltSync();
+        fields.password = bcrypt.hashSync(password, salt);
+        }
+      
         // Si el email no existe entonces procedemos a actualizar, pero antes agregamos el email de nuevo a los campos
         fields.email = email;
         const userUpdated = await User.findByIdAndUpdate(uid, fields, {
