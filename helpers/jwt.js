@@ -10,7 +10,7 @@ const getJWT = (uid) => {
       payload,
       process.env.JWT_SECRET,
       {
-        expiresIn: "24h",
+        expiresIn: "365 days",
       },
       (err, token) => {
         if (err) {

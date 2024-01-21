@@ -60,13 +60,19 @@ formData.append('role', 'student')
 
 // Validamos un maximo de 5 imagenes
 
-if(req.files.image.length > 5) {
-  return res.status(400).json({
-    ok: false,
-    msg: "You can not upload more than 5 images per post.",
-  });
+if(req.files.image.length !== undefined) {
+
+  if(req.files.image.length > 5) {
+    return res.status(400).json({
+      ok: false,
+      msg: "You can not upload more than 5 images per post.",
+    });
+  
+  }
 
 }
+
+
 
 const images = []; 
 const file = req.files.image;
