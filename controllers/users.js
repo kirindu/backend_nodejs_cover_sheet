@@ -87,8 +87,8 @@ const updateUsers = async (req, res) => {
 
       } else {
 
-        //Si se sta reciviendo un passsword es que se desea cambiar, por lo que procedemos a generarlo y agregarlo
-        if(req.body.password) {
+        //Si se sta reciviendo un passsword y es diferente de 'thesame' es que se desea cambiar , por lo que procedemos a generarlo y agregarlo
+        if(req.body.password && req.body.password !== 'thesame') {
         //Encrypt password
         const salt = bcrypt.genSaltSync();
         fields.password = bcrypt.hashSync(password, salt);
