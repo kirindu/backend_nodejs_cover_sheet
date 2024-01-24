@@ -24,7 +24,7 @@ const createCategories = async (req, res) => {
     const existCategory = await Category.findOne({ name });
 
     if (existCategory) {
-        return res.status(400).json({
+        return res.status(200).json({
           ok: false,
           msg: "this category is already registered",
         });

@@ -22,7 +22,7 @@ const createUsers = async (req, res) => {
     const existEmail = await User.findOne({ email });
 
     if (existEmail) {
-      return res.status(400).json({
+      return res.status(200).json({
         ok: false,
         msg: "this email is already registered",
       });
@@ -79,7 +79,7 @@ const updateUsers = async (req, res) => {
 
 
       if (existEmail) {
-        return res.status(400).json({
+        return res.status(200).json({
           ok: false,
           msg: "There is already a user with this email",
         });

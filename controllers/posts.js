@@ -52,7 +52,7 @@ formData.append('role', 'student')
 
     // Validamos que exista un archivo
     if (!req.files || Object.keys(req.files).length === 0) {
-      return res.status(400).json({
+      return res.status(200).json({
         ok: false,
         msg: "No files were uploaded.",
       });
@@ -63,7 +63,7 @@ formData.append('role', 'student')
 if(req.files.image.length !== undefined) {
 
   if(req.files.image.length > 5) {
-    return res.status(400).json({
+    return res.status(200).json({
       ok: false,
       msg: "You can not upload more than 5 images per post.",
     });
@@ -92,7 +92,7 @@ function processingImage(file) {
    // Podemos delimitar el peso
 
    if (file.size / 1024 > 1024) {
-    return res.status(400).json({
+    return res.status(200).json({
       ok: false,
       msg: `The image ${file.name} cannot weigh more than 1 M.`,
     });
@@ -105,7 +105,7 @@ const extFile = nameCuted[nameCuted.length - 1];
 //Validar extension
 const extValid = ["png", "jpg", "jpeg"];
 if (!extValid.includes(extFile)) {
-  return res.status(400).json({
+  return res.status(200).json({
     ok: false,
     msg: `The image ${file.name} has an invalid extension.`,
   });
@@ -147,7 +147,7 @@ try {
 //   post.images.image_url = process.env.PATH_IMAGE_SERVER + nameImage;
   const postDB = await post.save();
 
-  res.status(400).json({
+  res.status(200).json({
     ok: true,
     postDB,
   });
@@ -185,7 +185,7 @@ const updatePost = async (req, res) => {
 
     // Validamos que exista un archivo
     if (!req.files || Object.keys(req.files).length === 0) {
-      return res.status(400).json({
+      return res.status(200).json({
         ok: false,
         msg: "No files were uploaded.",
       });
@@ -194,7 +194,7 @@ const updatePost = async (req, res) => {
     // Validamos un maximo de 5 imagenes
 
 if(req.files.image.length > 5) {
-  return res.status(400).json({
+  return res.status(200).json({
     ok: false,
     msg: "You can not upload more than 5 images per post.",
   });
@@ -230,7 +230,7 @@ function processingImage(file) {
   // Podemos delimitar el peso
 
   if (file.size / 1024 > 1024) {
-   return res.status(400).json({
+   return res.status(200).json({
      ok: false,
      msg: `The image ${file.name} cannot weigh more than 1 M.`,
    });
@@ -243,7 +243,7 @@ const extFile = nameCuted[nameCuted.length - 1];
 //Validar extension
 const extValid = ["png", "jpg", "jpeg"];
 if (!extValid.includes(extFile)) {
- return res.status(400).json({
+ return res.status(200).json({
    ok: false,
    msg: `The image ${file.name} has an invalid extension.`,
  });
@@ -285,7 +285,7 @@ try {
     new: true,
   });
 
-  res.status(400).json({
+  res.status(200).json({
     ok: true,
     postUpdated,
   });
