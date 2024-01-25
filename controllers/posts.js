@@ -10,7 +10,7 @@ const getPosts = async (req, res) => {
     .populate("category", "name")
     .populate("user", "name");
 
-  res.status(200).json({
+  return res.status(200).json({
     ok: true,
     posts,
   });
@@ -80,25 +80,15 @@ const file = req.files.image;
 //Aqui es donde vamos a meter a las imagenes
 
 if(!Array.isArray(req.files.image)) {
-  processingImage(file);
-}else{
-  req.files.image.forEach(async file => {
-    processingImage(file);
-  });
-}
 
-function processingImage(file) {
-
-   // Podemos delimitar el peso
-
-   if (file.size / 1024 > 1024) {
+  if (file.size / 1024 > 1024) {
     return res.status(200).json({
       ok: false,
-      msg: `The image ${file.name} cannot weigh more than 1 M.`,
+      msg: `The image ${file.name} cannot weigh more than 1Mb.`,
     });
   }
 
-    //Extraemos la extension
+     //Extraemos la extension
 const nameCuted = file.name.split(".");
 const extFile = nameCuted[nameCuted.length - 1];
 
@@ -136,6 +126,58 @@ const path = `./uploads/posts/${nameImage}`;
     }
   )
 
+}else{
+  req.files.image.forEach(async file => {
+
+    // Podemos delimitar el peso
+    if (file.size / 1024 > 1024) {
+      return res.status(200).json({
+        ok: false,
+        msg: `The image ${file.name} cannot weigh more than 1Mb.`,
+      });
+    }
+
+       //Extraemos la extension
+const nameCuted = file.name.split(".");
+const extFile = nameCuted[nameCuted.length - 1];
+
+//Validar extension
+const extValid = ["png", "jpg", "jpeg"];
+if (!extValid.includes(extFile)) {
+  return res.status(200).json({
+    ok: false,
+    msg: `The image ${file.name} has an invalid extension.`,
+  });
+}
+
+// Generamos el nombre del archivo de la imagen usando uuid
+const nameImage = `${uuidv4()}.${extFile}`;
+
+// Generamos Path para guardar la imagen
+const path = `./uploads/posts/${nameImage}`;
+
+  //Copiamos la imagen
+  file.mv(path, (err) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        ok: false,
+        msg: "Error to copy the image",
+      });
+    }
+  });
+
+  images.push(
+    {
+      image_name: path,
+      image_url: process.env.PATH_IMAGE_SERVER + nameImage,
+    
+    }
+  )
+
+
+ 
+  });
 }
 
 try {
@@ -147,13 +189,13 @@ try {
 //   post.images.image_url = process.env.PATH_IMAGE_SERVER + nameImage;
   const postDB = await post.save();
 
-  res.status(200).json({
+ return res.status(200).json({
     ok: true,
     postDB,
   });
 } catch (error) {
   console.log(error);
-  res.status(500).json({
+ return res.status(500).json({
     ok: false,
     msg: "An unexpected error occurred, please check the log",
   });
@@ -218,63 +260,107 @@ const file = req.files.image;
 
 
 if(!Array.isArray(req.files.image)) {
-  processingImage(file);
+    // Podemos delimitar el peso
+
+    if (file.size / 1024 > 1024) {
+      return res.status(200).json({
+        ok: false,
+        msg: `The image ${file.name} cannot weigh more than 1Mb.`,
+      });
+    }
+   
+      //Extraemos la extension
+   const nameCuted = file.name.split(".");
+   const extFile = nameCuted[nameCuted.length - 1];
+   
+   //Validar extension
+   const extValid = ["png", "jpg", "jpeg"];
+   if (!extValid.includes(extFile)) {
+    return res.status(200).json({
+      ok: false,
+      msg: `The image ${file.name} has an invalid extension.`,
+    });
+   }
+   
+   // Generamos el nombre del archivo de la imagen usando uuid
+   const nameImage = `${uuidv4()}.${extFile}`;
+   
+   // Generamos Path para guardar la imagen
+   const path = `./uploads/posts/${nameImage}`;
+   
+    //Copiamos la imagen
+    file.mv(path, (err) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          ok: false,
+          msg: "Error to copy the image",
+        });
+      }
+    });
+   
+    images.push(
+      {
+        image_name: path,
+        image_url: process.env.PATH_IMAGE_SERVER + nameImage,
+      
+      }
+    )
+ 
 }else{
   req.files.image.forEach(async file => {
-    processingImage(file);
+
+      // Podemos delimitar el peso
+
+  if (file.size / 1024 > 1024) {
+    return res.status(200).json({
+      ok: false,
+      msg: `The image ${file.name} cannot weigh more than 1Mb.`,
+    });
+  }
+ 
+    //Extraemos la extension
+ const nameCuted = file.name.split(".");
+ const extFile = nameCuted[nameCuted.length - 1];
+ 
+ //Validar extension
+ const extValid = ["png", "jpg", "jpeg"];
+ if (!extValid.includes(extFile)) {
+  return res.status(200).json({
+    ok: false,
+    msg: `The image ${file.name} has an invalid extension.`,
+  });
+ }
+ 
+ // Generamos el nombre del archivo de la imagen usando uuid
+ const nameImage = `${uuidv4()}.${extFile}`;
+ 
+ // Generamos Path para guardar la imagen
+ const path = `./uploads/posts/${nameImage}`;
+ 
+  //Copiamos la imagen
+  file.mv(path, (err) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        ok: false,
+        msg: "Error to copy the image",
+      });
+    }
+  });
+ 
+  images.push(
+    {
+      image_name: path,
+      image_url: process.env.PATH_IMAGE_SERVER + nameImage,
+    
+    }
+  )
+  
   });
 }
 
-function processingImage(file) {
 
-  // Podemos delimitar el peso
-
-  if (file.size / 1024 > 1024) {
-   return res.status(200).json({
-     ok: false,
-     msg: `The image ${file.name} cannot weigh more than 1 M.`,
-   });
- }
-
-   //Extraemos la extension
-const nameCuted = file.name.split(".");
-const extFile = nameCuted[nameCuted.length - 1];
-
-//Validar extension
-const extValid = ["png", "jpg", "jpeg"];
-if (!extValid.includes(extFile)) {
- return res.status(200).json({
-   ok: false,
-   msg: `The image ${file.name} has an invalid extension.`,
- });
-}
-
-// Generamos el nombre del archivo de la imagen usando uuid
-const nameImage = `${uuidv4()}.${extFile}`;
-
-// Generamos Path para guardar la imagen
-const path = `./uploads/posts/${nameImage}`;
-
- //Copiamos la imagen
- file.mv(path, (err) => {
-   if (err) {
-     console.log(err);
-     return res.status(500).json({
-       ok: false,
-       msg: "Error to copy the image",
-     });
-   }
- });
-
- images.push(
-   {
-     image_name: path,
-     image_url: process.env.PATH_IMAGE_SERVER + nameImage,
-   
-   }
- )
-
-}
 
 try {
   // Actualizamos a la BD
@@ -285,13 +371,13 @@ try {
     new: true,
   });
 
-  res.status(200).json({
+ return res.status(200).json({
     ok: true,
     postUpdated,
   });
 } catch (error) {
   console.log(error);
-  res.status(500).json({
+ return res.status(500).json({
     ok: false,
     msg: "An unexpected error occurred, please check the log",
   });
@@ -301,7 +387,7 @@ try {
 
   } catch (error) {
     console.log(error);
-    res.status(500).json({
+   return res.status(500).json({
       ok: false,
       msg: "An unexpected error occurred, please check the log",
     });
@@ -339,13 +425,13 @@ const deletePost = async (req, res) => {
       new: true,
     });
 
-    res.status(200).json({
+    return res.status(200).json({
       ok: true,
       user: postDeleted,
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({
+    return res.status(500).json({
       ok: false,
       msg: "An unexpected error occurred, please check the log",
     });
