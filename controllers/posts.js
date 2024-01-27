@@ -30,17 +30,6 @@ const getImage = async (req, res) => {
 };
 
 const createPost = async (req, res) => {
-  // Este metodo Post sera especial porque no podiamos separar el File de form-data que es el medio que se sube
-  //la imagen y el raq Json de los datos y mandar los dos al mismo tiempo, por lo que acudiremos a mandar
-  //todo de una vez por form.data :
-
-  /*
-    You should just append each text input one by one to the formData object, and each will be available as a property on the req.body object:
-
-formData.append('name', 'vasu')
-formData.append('email', 'vasutiwari@gmail.com')
-formData.append('role', 'student')
-*/
 
   const uid = req.uid; // recuperamos el uid previamente insertado por la validacion del token.
 
@@ -246,6 +235,8 @@ if(req.files.image.length > 5) {
 const images = []; 
 const file = req.files.image;
 
+
+return;
 
      //Borramos todas la imagenes del post
      postDB.images.forEach(img => {
