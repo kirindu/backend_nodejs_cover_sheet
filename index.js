@@ -25,6 +25,6 @@ app.use('/api/categories',require('./routes/categories'));
 app.use('/api/posts',require('./routes/posts'));
 app.use('/api/login',require('./routes/auth'));
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log('Server running on port 3000' + process.env.PORT);
 });

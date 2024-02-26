@@ -4,7 +4,8 @@
   "description": "backend for used equipment webapp",
   "main": "index.js",
   "scripts": {
-    "start:dev": "nodemon index.js"
+    "start:dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "author": "roberto payan",
   "license": "ISC",
