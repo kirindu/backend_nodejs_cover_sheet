@@ -19,6 +19,21 @@ const PostSchema = Schema({
     description:  {type: String,maxlength: 250, required: true},
     user: {type: Schema.Types.ObjectId, ref: 'User'},
     category: {type: Schema.Types.ObjectId, ref: 'Category'},
+
+
+    year: {type: Number, required: false},
+    make: {type: String,maxlength: 250, required: false},
+    model: {type: String,maxlength: 250, required: false},
+    engine:{type: String,maxlength: 250, required: false},
+    transmission: {type: String,maxlength: 250, required: false},
+    suspension:{type: String,maxlength: 250, required: false},
+    fuel: {type: String,maxlength: 250, required: false},
+    vin: {type: String,maxlength: 250, required: false},
+    bodySize: {type: String,maxlength: 250, required: false},
+
+
+
+
     creationDate: {
         type: Date,
         default: Date.now(),
