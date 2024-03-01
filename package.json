@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "backend for used equipment webapp",
   "main": "index.js",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "start:dev": "nodemon index.js",
     "start": "node index.js"
