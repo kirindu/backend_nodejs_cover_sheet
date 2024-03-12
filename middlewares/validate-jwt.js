@@ -11,7 +11,6 @@ const validateJWT = (req, res, next) => {
       msg: "Token not found",
     });
   }
-
   try {
     const { uid } = jwt.verify(token, process.env.JWT_SECRET);
 
@@ -25,5 +24,4 @@ const validateJWT = (req, res, next) => {
     });
   }
 };
-
 module.exports = [validateJWT];
