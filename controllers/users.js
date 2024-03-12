@@ -61,7 +61,7 @@ const updateUsers = async (req, res) => {
     const userDB = await User.findById(uid);
 
     if (!userDB) {
-      return res.status(404).json({
+      return res.status(401).json({
         ok: false,
         msg: "User not found",
       });
@@ -133,7 +133,7 @@ const deleteUser = async (req, res) => {
     const userDB = await User.findById(uid);
 
     if (!userDB) {
-      return res.status(404).json({
+      return res.status(401).json({
         ok: false,
         msg: "User not found",
       });

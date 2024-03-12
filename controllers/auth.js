@@ -9,7 +9,7 @@ const login = async (req, res) => {
     const userDB = await User.findOne({ email });
 
     if (!userDB) {
-      return res.status(404).json({
+      return res.status(401).json({
         ok: false,
         msg: "email not found",
       });
@@ -19,7 +19,7 @@ const login = async (req, res) => {
     const validPassword = bcrypt.compareSync(password, userDB.password);
 
     if (!validPassword) {
-      return res.status(404).json({
+      return res.status(401).json({
         ok: false,
         msg: "wrong password",
       });
