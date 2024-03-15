@@ -13,7 +13,7 @@ const {getCategories,createCategories,updateCategories,deleteCategories} = requi
 
 const router = Router();
 
-router.get('/', getCategories);
+router.get('/',[validateJwt], getCategories);
 
 router.post('/',[
     validateJwt,
