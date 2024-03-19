@@ -13,7 +13,8 @@ const {getCategories,createCategories,updateCategories,deleteCategories} = requi
 
 const router = Router();
 
-router.get('/',[validateJwt], getCategories);
+// router.get('/',[validateJwt], getCategories); // Creo que no hay necesidad de validar por token la consulta de categorias
+router.get('/', getCategories);
 
 router.post('/',[
     validateJwt,
