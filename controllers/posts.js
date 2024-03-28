@@ -50,7 +50,7 @@ const createPost = async (req, res) => {
     if (req.files.image.length > 5) {
       return res.status(200).json({
         ok: false,
-        msg: "You can not upload more than 5 images per post.",
+        msg: "You can not upload more than 5 images at a time.",
       });
     }
   }
@@ -64,7 +64,7 @@ const createPost = async (req, res) => {
     if (file.size / 1024 > 1024) {
       return res.status(200).json({
         ok: false,
-        msg: `The image ${file.name} cannot weigh more than 1Mb.`,
+        msg: `The image ${file.name} cannot be more than 1Mb in size`,
       });
     }
 
@@ -93,7 +93,7 @@ const createPost = async (req, res) => {
         console.log(err);
         return res.status(500).json({
           ok: false,
-          msg: "Error to copy the image",
+          msg: "Error copying the image",
         });
       }
     });
@@ -108,7 +108,7 @@ const createPost = async (req, res) => {
       if (file.size / 1024 > 1024) {
         return res.status(200).json({
           ok: false,
-          msg: `The image ${file.name} cannot weigh more than 1Mb.`,
+          msg: `The image ${file.name} cannot be more than 1Mb in size.`,
         });
       }
 
@@ -137,7 +137,7 @@ const createPost = async (req, res) => {
           console.log(err);
           return res.status(500).json({
             ok: false,
-            msg: "Error to copy the image",
+            msg: "Error copying the image",
           });
         }
       });
