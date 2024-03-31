@@ -47,10 +47,10 @@ const createPost = async (req, res) => {
   // Validamos un maximo de 5 imagenes
 
   if (req.files.image.length !== undefined) {
-    if (req.files.image.length > 5) {
+    if (req.files.image.length > 15) {
       return res.status(200).json({
         ok: false,
-        msg: "You can not upload more than 5 images at a time.",
+        msg: "You can not upload more than 15 images.",
       });
     }
   }
@@ -61,10 +61,10 @@ const createPost = async (req, res) => {
   //Aqui es donde vamos a meter a las imagenes
 
   if (!Array.isArray(req.files.image)) {
-    if (file.size / 1024 > 1024) {
+    if (file.size / 1024 > 3072) {
       return res.status(200).json({
         ok: false,
-        msg: `The image ${file.name} cannot be more than 1Mb in size`,
+        msg: `The image ${file.name} cannot be more than 3Mb in size`,
       });
     }
 
@@ -105,7 +105,7 @@ const createPost = async (req, res) => {
   } else {
     req.files.image.forEach(async (file) => {
       // Podemos delimitar el peso
-      if (file.size / 1024 > 1024) {
+      if (file.size / 1024 > 3072) {
         return res.status(200).json({
           ok: false,
           msg: `The image ${file.name} cannot be more than 1Mb in size.`,
@@ -235,10 +235,10 @@ const updatePost = async (req, res) => {
       if (!Array.isArray(req.files.image)) {
         // Podemos delimitar el peso
 
-        if (file.size / 1024 > 1024) {
+        if (file.size / 1024 > 3072) {
           return res.status(200).json({
             ok: false,
-            msg: `The image ${file.name} cannot weigh more than 1Mb.`,
+            msg: `The image ${file.name} cannot weigh more than 3Mb.`,
           });
         }
 
@@ -280,10 +280,10 @@ const updatePost = async (req, res) => {
         req.files.image.forEach(async (file) => {
           // Podemos delimitar el peso
 
-          if (file.size / 1024 > 1024) {
+          if (file.size / 1024 > 3072) {
             return res.status(200).json({
               ok: false,
-              msg: `The image ${file.name} cannot weigh more than 1Mb.`,
+              msg: `The image ${file.name} cannot weigh more than 3Mb.`,
             });
           }
 
