@@ -28,7 +28,8 @@ router.get('/image/:image', [], getImage);
 router.post('/',[
 
     validateJwt,
-    check('name', 'The name is required').notEmpty(),
+
+  //  check('name', 'The name is required').notEmpty(),
    // check('image', 'The image is required').notEmpty(),
     check('price', 'The price is required').notEmpty(),
     check('description', 'The description is required').notEmpty(),
@@ -51,21 +52,21 @@ router.post('/',[
 router.put('/:id',[
 
     validateJwt,
-    check('name', 'The name is required').notEmpty(),
+  //  check('name', 'The name is required').notEmpty(),
    // check('image', 'The image is required').notEmpty(),
     check('price', 'The price is required').notEmpty(),
     check('description', 'The description is required').notEmpty(),
     check('category', 'The category is not valid').isMongoId(), // Evaluamos quie si el Id de la categoria que le pasamos es valida
     
-    check('year', 'The year is required').notEmpty(),
-    check('make', 'The make is required').notEmpty(),
-    check('model', 'The model is required').notEmpty(),
-    check('engine', 'The engine is required').notEmpty(),
-    check('transmission', 'The transmission is required').notEmpty(),
-    check('suspension', 'The suspension is required').notEmpty(),
-    check('fuel', 'The fuel is required').notEmpty(),
-    check('vin', 'The vin is required').notEmpty(),
-    check('bodySize', 'The body size is required').notEmpty(),
+    // check('year', 'The year is required').notEmpty(),
+    // check('make', 'The make is required').notEmpty(),
+    // check('model', 'The model is required').notEmpty(),
+    // check('engine', 'The engine is required').notEmpty(),
+    // check('transmission', 'The transmission is required').notEmpty(),
+    // check('suspension', 'The suspension is required').notEmpty(),
+    // check('fuel', 'The fuel is required').notEmpty(),
+    // check('vin', 'The vin is required').notEmpty(),
+    // check('bodySize', 'The body size is required').notEmpty(),
     
     
     validateFields

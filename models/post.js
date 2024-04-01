@@ -2,17 +2,20 @@ const {Schema, model} = require('mongoose');
 
 const PostSchema = Schema({
 
-    name: {type: String,maxlength: 250, required: true},
+ 
+    
+
+    price: {type: Number, required: true},
+    description:  {type: String,maxlength: 250, required: true},
+    user: {type: Schema.Types.ObjectId, ref: 'User'},
+    category: {type: Schema.Types.ObjectId, ref: 'Category'},
+
     images: [
         {
             image_name: {type: String,maxlength: 250},
             image_url: {type: String,maxlength: 250},
         }     
     ],
-    price: {type: Number, required: true},
-    description:  {type: String,maxlength: 250, required: true},
-    user: {type: Schema.Types.ObjectId, ref: 'User'},
-    category: {type: Schema.Types.ObjectId, ref: 'Category'},
 
     year: {type: Number, required: false},
     manufacturer:  {type: String,maxlength: 250, required: true},
