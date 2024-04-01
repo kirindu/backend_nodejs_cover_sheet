@@ -18,11 +18,11 @@ const PostSchema = Schema({
     ],
 
     year: {type: Number, required: false},
-    manufacturer:  {type: String,maxlength: 250, required: true},
-    body:  {type: String,maxlength: 250, required: true},
-    engine:  {type: String,maxlength: 250, required: true},
-    powerTrain:  {type: String,maxlength: 250, required: true},
-    chassis:  {type: String,maxlength: 250, required: true},
+    manufacturer:  {type: String,maxlength: 250, required: false},
+    body:  {type: String,maxlength: 250, required: false},
+    engine:  {type: String,maxlength: 250, required: false},
+    powerTrain:  {type: String,maxlength: 250, required: false},
+    chassis:  {type: String,maxlength: 250, required: false},
 
 
    
