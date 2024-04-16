@@ -73,7 +73,7 @@ const createPost = async (req, res) => {
     const extFile = nameCuted[nameCuted.length - 1];
 
     //Validar extension
-    const extValid = ["png", "jpg", "jpeg"];
+    const extValid = ["png", "jpg", "jpeg", "PNG", "JPG", "JPEG"];
     if (!extValid.includes(extFile)) {
       return res.status(200).json({
         ok: false,
@@ -247,7 +247,7 @@ const updatePost = async (req, res) => {
         const extFile = nameCuted[nameCuted.length - 1];
 
         //Validar extension
-        const extValid = ["png", "jpg", "jpeg"];
+        const extValid = ["png", "jpg", "jpeg", "PNG", "JPG", "JPEG"];
         if (!extValid.includes(extFile)) {
           return res.status(200).json({
             ok: false,
@@ -292,7 +292,7 @@ const updatePost = async (req, res) => {
           const extFile = nameCuted[nameCuted.length - 1];
 
           //Validar extension
-          const extValid = ["png", "jpg", "jpeg"];
+          const extValid = ["png", "jpg", "jpeg", "PNG", "JPG", "JPEG"];
           if (!extValid.includes(extFile)) {
             return res.status(200).json({
               ok: false,
