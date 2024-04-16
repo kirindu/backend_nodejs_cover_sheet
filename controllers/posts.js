@@ -108,7 +108,7 @@ const createPost = async (req, res) => {
       if (file.size / 1024 > 3072) {
         return res.status(200).json({
           ok: false,
-          msg: `The image ${file.name} cannot be more than 1Mb in size.`,
+          msg: `The image ${file.name} cannot be more than 3Mb in size.`,
         });
       }
 
@@ -117,7 +117,7 @@ const createPost = async (req, res) => {
       const extFile = nameCuted[nameCuted.length - 1];
 
       //Validar extension
-      const extValid = ["png", "jpg", "jpeg"];
+      const extValid = ["png", "jpg", "jpeg", "PNG", "JPG", "JPEG"];
       if (!extValid.includes(extFile)) {
         return res.status(200).json({
           ok: false,
