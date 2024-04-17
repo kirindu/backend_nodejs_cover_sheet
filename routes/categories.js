@@ -3,29 +3,34 @@ Route: /api/categories
 */
 
 const { Router } = require("express");
-const {check} = require('express-validator');
-const {validateFields} = require('../middlewares/validate-fields')
+const { check } = require("express-validator");
+const { validateFields } = require("../middlewares/validate-fields");
 const validateJwt = require("../middlewares/validate-jwt");
 
-const {getCategories,createCategories,updateCategories,deleteCategories} = require('../controllers/categories')
-
-
+const {
+  getCategories,
+  createCategories,
+  updateCategories,
+  deleteCategories,
+} = require("../controllers/categories");
 
 const router = Router();
 
 // router.get('/',[validateJwt], getCategories); // Creo que no hay necesidad de validar por token la consulta de categorias
-router.get('/', getCategories);
+router.get("/", getCategories);
 
-router.post('/',[
+router.post(
+  "/",
+  [
     validateJwt,
-    check('name', 'The name is required').notEmpty(),
-    validateFields
-], createCategories);
+    check("name", "The name is required").notEmpty(),
+    validateFields,
+  ],
+  createCategories
+);
 
-router.put('/:id',[
+router.put("/:id", [], updateCategories);
 
-], updateCategories);
-
-router.delete('/:id', deleteCategories);
+router.delete("/:id", deleteCategories);
 
 module.exports = router;
