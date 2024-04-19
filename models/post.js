@@ -14,6 +14,7 @@ const PostSchema = Schema({
         {
             image_name: {type: String,maxlength: 250},
             image_url: {type: String,maxlength: 250},
+            position: {type: Number},
         }     
     ],
 

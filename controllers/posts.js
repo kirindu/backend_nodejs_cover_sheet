@@ -60,7 +60,7 @@ const createPost = async (req, res) => {
 
   //Aqui es donde vamos a meter a las imagenes
 
-  if (!Array.isArray(req.files.image)) {
+  if (!Array.isArray(req.files.image)) { // Si no es un arreglo entonces quiere decir que solo viene una imagen.
     if (file.size / 1024 > 3072) {
       return res.status(200).json({
         ok: false,
@@ -101,9 +101,10 @@ const createPost = async (req, res) => {
     images.push({
       image_name: path,
       image_url: process.env.PATH_IMAGE_SERVER + nameImage,
+      position: 0
     });
   } else {
-    req.files.image.forEach(async (file) => {
+    req.files.image.forEach(async (file, index) => {
       // Podemos delimitar el peso
       if (file.size / 1024 > 3072) {
         return res.status(200).json({
@@ -145,6 +146,7 @@ const createPost = async (req, res) => {
       images.push({
         image_name: path,
         image_url: process.env.PATH_IMAGE_SERVER + nameImage,
+        position: index,
       });
     });
   }
@@ -275,9 +277,10 @@ const updatePost = async (req, res) => {
         images.push({
           image_name: path,
           image_url: process.env.PATH_IMAGE_SERVER + nameImage,
+          position: 0,
         });
       } else {
-        req.files.image.forEach(async (file) => {
+        req.files.image.forEach(async (file, index) => {
           // Podemos delimitar el peso
 
           if (file.size / 1024 > 3072) {
@@ -320,6 +323,7 @@ const updatePost = async (req, res) => {
           images.push({
             image_name: path,
             image_url: process.env.PATH_IMAGE_SERVER + nameImage,
+            position: index,
           });
         });
       }
