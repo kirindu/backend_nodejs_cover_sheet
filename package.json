@@ -1,7 +1,7 @@
 {
-  "name": "backend_nodeserver_used_equipment",
+  "name": "backend_nodejs_cover_sheet",
   "version": "1.0.0",
-  "description": "backend for used equipment webapp",
+  "description": "backend for cover sheet webapp",
   "main": "index.js",
   "engines": {
     "node": "18.x"
