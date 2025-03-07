@@ -22,8 +22,13 @@ dbConnection();
 //Routes
 app.use('/api/users',require('./routes/users'));
 app.use('/api/auth/user',require('./routes/user')); // Este es para verificar el token del usuario
+
 app.use('/api/categories',require('./routes/categories'));
 app.use('/api/posts',require('./routes/posts'));
+
+
+app.use('/api/trucks',require('./routes/trucks'));
+app.use('/api/routes',require('./routes/routes'));
 app.use('/api/login',require('./routes/auth'));
 
 app.listen(process.env.PORT || 3000, () => {

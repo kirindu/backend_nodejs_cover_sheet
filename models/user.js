@@ -9,8 +9,7 @@ const UserSchema = Schema({
     password: {type: String,maxlength: 250, required: true},
     avatar: {type: String,maxlength: 250, required: false},
     state: {type: Number,default: 1}, // 1 is active , 2 is inactive
-    password: {type: String,maxlength: 250, required: false},
-    google: {type: String,maxlength: 30, required: false},
+    password: {type: String,maxlength: 250, required: false}
 },{
     timestamps: true
 });
